@@ -1,0 +1,135 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <cmath>
+#include <algorithm>
+#include <vector>
+#include <cstdlib>
+#include <sstream>
+#include <fstream>
+#include <list>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <map>
+#include <set>
+#include <bitset>
+#include <cctype>
+#include <ctime>
+#include <utility>
+#include <complex>
+
+using namespace std;
+
+#define pb push_back
+#define mp make_pair
+#define x first
+#define y second
+#define sz(v) ((int)(v).size())
+#define all(t) t.begin(),t.end()
+#define clr(x,y) memset(x, y, sizeof(x))
+#define unq(x) sort(all(x)),(x).erase(unique(all(x)),(x).end())
+#define posin(x,y) (0 <= (x) && (x) < n && 0 <= (y) && (y) < m)
+#define rep(i, a, b) for(int i = (a); i <= (int)(b); i ++)
+#define red(i, a, b) for(int i = (a); i >= (int)(b); i --)
+#define repcase int T, cas = 0; for (scanf ("%d", &T); T; --T)
+#define repeach(i,x) for (__typeof((x).begin()) i = (x).begin(); i != (x).end(); ++i)
+#define reptest(a,n) tst1(a); for (int i = 0; i < (int)(n); ++ i) tst (a[i]); cout << endl;
+#define out(x) cout<<#x<<":"<<(x)<<endl
+#define tst(a) cout<<a<<" "
+#define tst1(a) cout<<#a<<endl
+
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<string> vs;
+typedef vector<double> vd;
+typedef pair<int, int> pii;
+typedef vector<pii > vii;
+typedef complex<double> CD;
+
+const double eps = 1e-10;
+const double PI = atan(1.0)*4;
+const int inf = ~0u>>1;
+const int Dx[]={1,0,-1,0}, Dy[]={0,1,0,-1};
+
+template <class T> bool chmin(T& a, const T &b) {return b < a? a = b, 1: 0;}
+template <class T> bool chmax(T& a, const T &b) {return b > a? a = b, 1: 0;}
+template <class T> int sgn(T x) { return (x > eps) - (x < -eps);}
+/*head*/
+
+const int maxn = int(1e5) + 9;
+map<int, int> has;
+set<int> A, B;
+vi vec[maxn];
+int a, b;
+int c[maxn], p[maxn], f[maxn];
+
+int find (int x){
+    return x == f[x] ? f[x] : f[x] = find (f[x]);
+}
+void merge (int x, int y){
+    int t1 = find (x), t2 = find (y);
+    if (t1 != t2) f[t1] = t2;
+}
+
+bool dfs (int x, int col){
+    set<int> t;
+    for (auto v: vec[x]) t.insert (p[v]);
+    for (auto v: t){
+        int tmp = col ? b-v : a-v;
+        if (t.find (tmp) == t.end ()) return 0;
+    }
+    return 1;
+}
+
+int main()
+{
+    //freopen("a.in","r",stdin);
+    //freopen("a.out","w",stdout);
+    int n;
+    while (cin >> n >> a >> b){
+        rep (i, 0, n-1){
+            scanf ("%d", p + i);
+            has[p[i]] = i;
+        }
+
+        rep (i, 0, n-1) f[i] = i;
+        rep (i, 0, n-1){
+            auto it = has.find (a - p[i]);
+            if (it != has.end ()){
+                merge (it->y, i);
+            }
+            it = has.find (b - p[i]);
+            if (it != has.end ()){
+                merge (it->y, i);
+            }
+        }
+
+        rep (i, 0, n-1) vec[i].clear ();
+        rep (i, 0, n-1) vec[find(i)].pb (i);
+
+        bool ans = 1;
+        clr (c, -1);
+        rep (i, 0, n-1) if (sz (vec[i])){
+            if (dfs (i, 0)){
+                //for (auto v: vec[i]) A.insert (p[v]);
+            } else if (dfs (i, 1)){
+                for (auto v: vec[i]) B.insert (p[v]);
+            } else{
+                ans = 0; break;
+            }
+        }
+        if (!ans) puts ("NO");
+        else{
+            rep (i, 0, n-1) c[i] = (B.find(p[i]) != B.end());
+            puts ("YES");
+            rep (i, 0, n-1){
+                printf ("%d%c", c[i], " \n"[i==n-1]);
+            }
+        }
+
+        has.clear ();
+    }
+    return 0;
+}

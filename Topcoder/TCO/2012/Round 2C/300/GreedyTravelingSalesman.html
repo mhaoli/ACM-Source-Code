@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>TopCoder TCO 2012 Round 2C - 300: GreedyTravelingSalesman</title>
+    
+    <link type="image/x-icon" rel="shortcut icon" href="http://www.topcoder.com/i/favicon.ico"/>
+    
+
+    
+    <style type="text/css">
+        /* font */
+body {
+    font-family: Helvetica, Arial, Verdana, sans-serif;
+    font-size: 16px;
+    line-height: 1.2em;
+}
+ul.constraints > li:before, ul.notes > li:before {
+    font-family: monospace;
+    font-weight: normal;
+}
+.heading {
+    font-weight: bold;
+    font-size: 175%;
+    line-height: 1.2em;
+}
+.section .section-title {
+    font-weight: bold;
+    font-size: 125%;
+}
+ol.testcases > li:before {
+    font-family: monospace;
+}
+type {
+    font-weight: bold;
+    font-family: monospace;
+}
+li.testcase .data {
+    font-family: monospace;
+    line-height: 1.5em;
+}
+
+/* layout */
+.heading {
+    margin-top: 0.1em;
+    margin-bottom:0.1em;
+    text-align: center;
+}
+.section .section-title {
+    margin-top : 1em;
+    margin-bottom: 1em;
+}
+.problem-intro, note, user-constraint {
+    padding-left: 1.25em;
+}
+
+/* Lists */
+ul.constraints, ul.notes, ul.variables, ul.problem-definition-lines {
+    list-style-type: none;
+    padding: 0px;
+}
+ul.constraints > li:before {
+    content: "-";
+    position:relative;
+    margin-left: 0px; /* optional, for multiline li element */
+    left: 0.625em;
+}
+ul.notes > li:before {
+    content: "-";
+    position:relative;
+    margin-left: 0px; /* optional, for multiline li element */
+    left: 0.625em;
+}
+
+/* Testcases */
+li.testcase {
+    line-height: 1.1em;
+    padding-top: 0.625em;
+    padding-bottom: 0.625em;
+    overflow: auto;
+}
+li.testcase > .testcase-content > div { padding-bottom: 0.5em; padding-left: 1em; }
+
+li.testcase .testcase-comment {
+    margin: 0;
+    padding-left: 1em;
+}
+.testcase-comment p:first-child { margin-top: 0; }
+.testcase-comment p:last-child { margin-bottom: 0; }
+
+li.testcase .testcase-content {
+    margin: 0.31em;
+}
+
+/* Data and variables */
+.testcase-output {
+    padding: 0.2em 1em 0.2em 0em;
+}
+.variables, .testcase-output {
+    margin-left: 0.5em;
+    display: table;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+.variable {
+    display: table-row;
+}
+.variable .name {
+    padding: 0.2em 0em 0.2em 1em;
+    font-weight: bold;
+    display: table-cell;
+    text-align: right;
+}
+.testcase-output .prefix {
+    padding: 0.2em 0em 0.2em 1em;
+    display: table-cell;
+}
+.testcase-output .prefix:after {
+    content : ":";
+    padding-right: 0.5em;
+}
+.variable .name:after {
+    font-weight: bold;
+    content : ":";
+    padding-right: 0.5em;
+}
+.variable .value, .testcase-output .value {
+    padding: 0.2em 1em 0.2em 0em;
+    display: table-cell;
+}
+ol.testcases {
+    padding: 0px;
+    counter-reset: test_number -1;
+}
+ol.testcases > li {
+    list-style:none;
+}
+ol.testcases > li:before {
+    counter-increment:test_number;
+    display: block;
+    clear: both;
+    content:counter(test_number) ")";
+    color: inherit;
+    background: inherit;
+}
+
+/* Problem Definition */
+.problem-definition, .problem-limits {
+    padding-left: 1.25em;
+}
+.problem-definition-lines, .limit-lines {
+    display: table;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 0px;
+}
+.definition-line, .limit-line {
+    display: table-row;
+    height: 1.5em;
+    overflow: auto;
+}
+.limit-name:after {
+    content: ":";
+    margin-right: 1em;
+}
+.definition-name, .definition-value, .limit-name, .limit-value {
+    display: table-cell;
+}
+.definition-value {
+    padding-left: 0.5em;
+}
+.definition-name:after {
+    content: ":";
+}
+#contest-division:before {
+    content: "Div ";
+}
+#problem-score:before {
+    content: "- Problem ";
+}
+#problem-name {
+    display: block;
+}
+
+/* Tags, hidden default */
+.tag {
+    visibility: hidden;
+    position: absolute;
+}
+
+        body {
+    /* font color */
+    color: #333333;
+    /* background color */
+    background-color: white;
+}
+.section .section-title {
+    /* title color */
+    color: black;
+}
+li.testcase .data {
+    /* highlight color */
+    background: #eee;
+}
+
+    </style>
+    
+    
+    
+
+</head>
+
+<body>
+    <h1 class="heading">
+        <span id='contest-name'>TCO 2012 Round 2C</span>
+        <span id='contest-division'>1</span>
+        <span id='problem-score'>300</span>
+        <span id='problem-name'>GreedyTravelingSalesman</span>
+    </h1>
+
+    <hr />
+
+    <!-- Problem Statement -->
+    <div class="section">
+        <h2 class="section-title">Problem Statement</h2>
+        <div class="problem-intro">
+            <intro escaped="1">In Digraph Country, there are N cities indexed 0 through N-1.
+Each pair of different cities is connected by two one-way roads, one in each direction.
+The lengths of roads may be asynmetric. I.e., it is possible that the road from i to j and the road from j to i have different lengths.
+<p></p>
+A travelling salesman wants to visit each city of the country in order to sell the products of his company.
+To travel as quickly as possible, he plans the following strategy.
+<ul>
+<li>First, he visits city 0.</li>
+<li> In each of the next steps, he travels to one of the cities he has not visited yet.
+When taking the decision which city to visit next, the salesman looks at roads from his current city into all unvisited cities, and picks the shortest of these roads.
+If there are multiple shortest roads, the salesman picks the one of them that leads into the city with the smallest index.</li>
+<li>He terminates the travel when he has visited all the cities. Note that he does not have to go back to city 0. </li>
+</ul>
+<p></p>
+The salesman was just about to leave for his journey when he heard a rumor.
+According to the rumor, one of the roads is just going to be reconstructed. 
+The reconstruction will be done instantly, before the salesman starts to travel.
+Still, there are two problems.
+First, the salesman has no idea which one of the roads is the one that's going to be reconstructed.
+Second, after the reconstruction the new length of the road can be an arbitrary integer between 1 and 9999, inclusive.
+The salesman is worried how will this change influence his travels in the worst case.
+<p></p>
+You are given the length of the roads in four separate <type>String[]</type>s.
+<b>thousands</b> gives the digit in the thousands place of the length of each road,
+<b>hundreds</b> gives the digit in the hundreds place,
+<b>tens</b> gives the digit in the tens place, and <b>ones</b> gives the digit in the ones place.
+In each of these <type>String[]</type>s, the j-th character of the i-th element represents the length of the road from city i to city j.
+So, for example, if <b>thousands</b>[3][5]='1', <b>hundreds</b>[3][5]='0', <b>tens</b>[3][5]='4', and <b>ones</b>[3][5]='7', the road from city 3 to city 5 has length 1047.
+<p></p>
+Return the distance the salesman will travel in the worst possible case, given that the length of any single road may change.
+</intro>
+        </div>
+    </div>
+    
+    <!-- Problem definition -->
+    
+    <div class="section" id="definition">
+        <h2 class="section-title">Definition</h2>
+        <div class="problem-definition">
+            <ul class="problem-definition-lines">
+                <li class="definition-line" id='class-line'>
+                    <span class='definition-name'>Class</span>
+                    <span class='definition-value'>GreedyTravelingSalesman</span>
+                </li>
+                <li class="definition-line" id='method-line'>
+                    <span class='definition-name'>Method</span>
+                    <span class='definition-value'>worstDistance</span>
+                </li>
+                <li class="definition-line" id='parameters-line'>
+                    <span class='definition-name'>Parameters</span>
+                    <span class='definition-value'>
+                    
+                        vector&lt;string&gt;
+                    , 
+                        vector&lt;string&gt;
+                    , 
+                        vector&lt;string&gt;
+                    , 
+                        vector&lt;string&gt;
+                    
+                    </span>
+                </li>
+                <li class="definition-line" id='returns-line'>
+                    <span class='definition-name'>Returns</span>
+                    <span class='definition-value'>
+                        int
+                    </span>
+                </li>
+                <li class="definition-line" id='signature-line'>
+                    <span class='definition-name'>Method signature</span>
+                    <span class='definition-value'>
+                        int worstDistance(vector&lt;string&gt; thousands, vector&lt;string&gt; hundreds, vector&lt;string&gt; tens, vector&lt;string&gt; ones)
+                    </span>
+                </li>
+            </ul>
+            <div class="problem-definition-public-tip">(be sure your method is public)</div>
+        </div>        
+    </div>
+    
+
+    <!-- Limits -->
+    <div class="section">
+        <h2 class="section-title">Limits</h2>
+        <div class='problem-limits'>
+            <ul class="limit-lines">
+                <li class='limit-line'>
+                    <span class='limit-name'>Time limit (s)</span>
+                    <span class='limit-value'>2.000</span>
+                </li>
+                <li class='limit-line'>
+                    <span class='limit-name'>Memory limit (MB)</span>
+                    <span class='limit-value'>64</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    
+    
+    <!-- Constraints -->
+    <div class="section">
+        <h2 class="section-title">Constraints</h2>
+        <ul class="constraints">
+        
+            <li><user-constraint escaped="1"><b>thousands</b> will contain between 2 and 30 elements, inclusive.</user-constraint></li>
+        
+            <li><user-constraint escaped="1">Each element of <b>thousands</b> will contain N characters, where N is the number of elements in <b>thousands</b>.</user-constraint></li>
+        
+            <li><user-constraint escaped="1">Each element of <b>thousands</b> will contain only digits ('0' - '9').</user-constraint></li>
+        
+            <li><user-constraint escaped="1"><b>hundreds</b>, <b>tens</b> and <b>ones</b> will each contain N elements.</user-constraint></li>
+        
+            <li><user-constraint escaped="1">Each element of <b>hundreds</b>, <b>tens</b> and <b>ones</b> will contain N characters.</user-constraint></li>
+        
+            <li><user-constraint escaped="1">Each element of <b>hundreds</b>, <b>tens</b> and <b>ones</b> will contain only digits ('0' - '9').</user-constraint></li>
+        
+            <li><user-constraint escaped="1">The i-th character of the i-th element of <b>thousands</b>, <b>hundreds</b>, <b>tens</b> and <b>ones</b> will be '0'.</user-constraint></li>
+        
+            <li><user-constraint escaped="1">The length of each road represented by <b>thousands</b>, <b>hundreds</b>, <b>tens</b> and <b>ones</b> is strictly positive.</user-constraint></li>
+        
+        </ul>
+    </div>
+
+    <!-- Test cases -->
+    <div class="section">
+        <h2 class="section-title">Test cases</h2>
+        <ol class="testcases" start='0'>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">thousands</span>
+                                <span class="value data">
+                                
+                                    {&quot;055&quot;,<br />&nbsp;&quot;505&quot;,<br />&nbsp;&quot;550&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">hundreds</span>
+                                <span class="value data">
+                                
+                                    {&quot;000&quot;,<br />&nbsp;&quot;000&quot;,<br />&nbsp;&quot;000&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">tens</span>
+                                <span class="value data">
+                                
+                                    {&quot;000&quot;,<br />&nbsp;&quot;000&quot;,<br />&nbsp;&quot;000&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">ones</span>
+                                <span class="value data">
+                                
+                                    {&quot;000&quot;,<br />&nbsp;&quot;000&quot;,<br />&nbsp;&quot;000&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            14999
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">Every pair of two cities is connected by a road with length 5000. The travel length can reach 14999, for example, if the road from 1 to 2 is reconstructed and its new length is 9999.
+<br />
+<br />
+<img src="http://community.topcoder.com/contest/problem/GreedyTravelingSalesman/fig0.png"></img></div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">thousands</span>
+                                <span class="value data">
+                                
+                                    {&quot;018&quot;,<br />&nbsp;&quot;101&quot;,<br />&nbsp;&quot;990&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">hundreds</span>
+                                <span class="value data">
+                                
+                                    {&quot;000&quot;,<br />&nbsp;&quot;000&quot;,<br />&nbsp;&quot;990&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">tens</span>
+                                <span class="value data">
+                                
+                                    {&quot;000&quot;,<br />&nbsp;&quot;000&quot;,<br />&nbsp;&quot;990&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">ones</span>
+                                <span class="value data">
+                                
+                                    {&quot;000&quot;,<br />&nbsp;&quot;000&quot;,<br />&nbsp;&quot;990&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            17999
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">One of the worst situations for the salesman is if the road from 0 to 1 is reconstructed and its new length is 9999.
+After this change, the salesman's path becomes 0 -&gt; 2 -&gt; 1. The total distance is 8000 + 9999 = 17999.
+<br />
+<br />
+<img src="http://community.topcoder.com/contest/problem/GreedyTravelingSalesman/fig1.png"></img></div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">thousands</span>
+                                <span class="value data">
+                                
+                                    {&quot;00888&quot;,<br />&nbsp;&quot;00999&quot;,<br />&nbsp;&quot;00099&quot;,<br />&nbsp;&quot;00009&quot;,<br />&nbsp;&quot;00000&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">hundreds</span>
+                                <span class="value data">
+                                
+                                    {&quot;00000&quot;,<br />&nbsp;&quot;00999&quot;,<br />&nbsp;&quot;00099&quot;,<br />&nbsp;&quot;00009&quot;,<br />&nbsp;&quot;00000&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">tens</span>
+                                <span class="value data">
+                                
+                                    {&quot;00000&quot;,<br />&nbsp;&quot;10999&quot;,<br />&nbsp;&quot;11099&quot;,<br />&nbsp;&quot;11109&quot;,<br />&nbsp;&quot;11110&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">ones</span>
+                                <span class="value data">
+                                
+                                    {&quot;01000&quot;,<br />&nbsp;&quot;00999&quot;,<br />&nbsp;&quot;00099&quot;,<br />&nbsp;&quot;00009&quot;,<br />&nbsp;&quot;00000&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            37997
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">The worst possible case is when the length of the road from 0 to 1 is changed to 8000.
+After this change, the salesman's path becomes 0 -&gt; 1 -&gt; 2 -&gt; 3 -&gt; 4.
+<br />
+<br />
+<img src="http://community.topcoder.com/contest/problem/GreedyTravelingSalesman/fig2.png"></img></div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">thousands</span>
+                                <span class="value data">
+                                
+                                    {&quot;000000&quot;,<br />&nbsp;&quot;000000&quot;,<br />&nbsp;&quot;990999&quot;,<br />&nbsp;&quot;999099&quot;,<br />&nbsp;&quot;999909&quot;,<br />&nbsp;&quot;999990&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">hundreds</span>
+                                <span class="value data">
+                                
+                                    {&quot;000000&quot;,<br />&nbsp;&quot;000000&quot;,<br />&nbsp;&quot;990999&quot;,<br />&nbsp;&quot;999099&quot;,<br />&nbsp;&quot;999909&quot;,<br />&nbsp;&quot;999990&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">tens</span>
+                                <span class="value data">
+                                
+                                    {&quot;000000&quot;,<br />&nbsp;&quot;000000&quot;,<br />&nbsp;&quot;990999&quot;,<br />&nbsp;&quot;999099&quot;,<br />&nbsp;&quot;999909&quot;,<br />&nbsp;&quot;999990&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">ones</span>
+                                <span class="value data">
+                                
+                                    {&quot;011111&quot;,<br />&nbsp;&quot;101111&quot;,<br />&nbsp;&quot;990998&quot;,<br />&nbsp;&quot;999099&quot;,<br />&nbsp;&quot;999809&quot;,<br />&nbsp;&quot;999980&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            39994
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">One of the worst possible cases is when the length of the road from 0 to 1 is changed to 2.
+<br />
+<br />
+<img src="http://community.topcoder.com/contest/problem/GreedyTravelingSalesman/fig3.png"></img></div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">thousands</span>
+                                <span class="value data">
+                                
+                                    {&quot;00&quot;,<br />&nbsp;&quot;00&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">hundreds</span>
+                                <span class="value data">
+                                
+                                    {&quot;00&quot;,<br />&nbsp;&quot;00&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">tens</span>
+                                <span class="value data">
+                                
+                                    {&quot;00&quot;,<br />&nbsp;&quot;00&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">ones</span>
+                                <span class="value data">
+                                
+                                    {&quot;01&quot;,<br />&nbsp;&quot;10&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            9999
+                        
+                        </span>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">thousands</span>
+                                <span class="value data">
+                                
+                                    {&quot;0930&quot;,<br />&nbsp;&quot;1064&quot;,<br />&nbsp;&quot;0104&quot;,<br />&nbsp;&quot;1070&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">hundreds</span>
+                                <span class="value data">
+                                
+                                    {&quot;0523&quot;,<br />&nbsp;&quot;1062&quot;,<br />&nbsp;&quot;6305&quot;,<br />&nbsp;&quot;0810&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">tens</span>
+                                <span class="value data">
+                                
+                                    {&quot;0913&quot;,<br />&nbsp;&quot;0087&quot;,<br />&nbsp;&quot;3109&quot;,<br />&nbsp;&quot;1500&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">ones</span>
+                                <span class="value data">
+                                
+                                    {&quot;0988&quot;,<br />&nbsp;&quot;2030&quot;,<br />&nbsp;&quot;6103&quot;,<br />&nbsp;&quot;5530&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            14124
+                        
+                        </span>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">thousands</span>
+                                <span class="value data">
+                                
+                                    {&quot;0329&quot;,<br />&nbsp;&quot;2036&quot;,<br />&nbsp;&quot;2502&quot;,<br />&nbsp;&quot;8970&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">hundreds</span>
+                                <span class="value data">
+                                
+                                    {&quot;0860&quot;,<br />&nbsp;&quot;5007&quot;,<br />&nbsp;&quot;0404&quot;,<br />&nbsp;&quot;2770&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">tens</span>
+                                <span class="value data">
+                                
+                                    {&quot;0111&quot;,<br />&nbsp;&quot;2087&quot;,<br />&nbsp;&quot;2009&quot;,<br />&nbsp;&quot;2670&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">ones</span>
+                                <span class="value data">
+                                
+                                    {&quot;0644&quot;,<br />&nbsp;&quot;1094&quot;,<br />&nbsp;&quot;7703&quot;,<br />&nbsp;&quot;7550&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            17785
+                        
+                        </span>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">thousands</span>
+                                <span class="value data">
+                                
+                                    {&quot;098444156277392825243100607342&quot;,<br />&nbsp;&quot;200097656837707947798866622385&quot;,<br />&nbsp;&quot;290231695687128834848596019656&quot;,<br />&nbsp;&quot;407026565077650435591867333275&quot;,<br />&nbsp;&quot;843401002617957470339040852874&quot;,<br />&nbsp;&quot;349970591997218853400632158696&quot;,<br />&nbsp;&quot;419933000593511123878416328483&quot;,<br />&nbsp;&quot;696294503254214847884399055978&quot;,<br />&nbsp;&quot;641473980706392541888675375279&quot;,<br />&nbsp;&quot;936720077098054565078142449625&quot;,<br />&nbsp;&quot;203476089500970673371115103717&quot;,<br />&nbsp;&quot;511071853860312304204656816567&quot;,<br />&nbsp;&quot;347105714685052402147763392257&quot;,<br />&nbsp;&quot;125122220860203856679947732062&quot;,<br />&nbsp;&quot;121462979669220132944063071653&quot;,<br />&nbsp;&quot;928254504048223043681383050365&quot;,<br />&nbsp;&quot;502607124708785202536036594373&quot;,<br />&nbsp;&quot;793596587517012870906900400361&quot;,<br />&nbsp;&quot;712360060935346182084840996318&quot;,<br />&nbsp;&quot;761671392040312345002273366240&quot;,<br />&nbsp;&quot;812935320276738878200716148806&quot;,<br />&nbsp;&quot;228506917464479046839069740872&quot;,<br />&nbsp;&quot;755395721473881083093906155745&quot;,<br />&nbsp;&quot;192597782177910118061710039501&quot;,<br />&nbsp;&quot;721382839206745793530453013267&quot;,<br />&nbsp;&quot;076061794267810491768114700256&quot;,<br />&nbsp;&quot;857528357758085424372388710251&quot;,<br />&nbsp;&quot;173322450800442594145600093043&quot;,<br />&nbsp;&quot;761667192345925280210514410800&quot;,<br />&nbsp;&quot;521229810525064090301842864060&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">hundreds</span>
+                                <span class="value data">
+                                
+                                    {&quot;098270581534726237580246464451&quot;,<br />&nbsp;&quot;108829763716747148395013332067&quot;,<br />&nbsp;&quot;830061279541380758964430491222&quot;,<br />&nbsp;&quot;431005058477371114834129826284&quot;,<br />&nbsp;&quot;601807314489142917339949914290&quot;,<br />&nbsp;&quot;330640126699733151822328009407&quot;,<br />&nbsp;&quot;851821069798846354566780680271&quot;,<br />&nbsp;&quot;648888407535627630663351884365&quot;,<br />&nbsp;&quot;051398660825518466890170447894&quot;,<br />&nbsp;&quot;631934884097214069747147155777&quot;,<br />&nbsp;&quot;768071219404930950472885304916&quot;,<br />&nbsp;&quot;924954163330715847561718395488&quot;,<br />&nbsp;&quot;189910033179029204426829479070&quot;,<br />&nbsp;&quot;960645776060701332402794474433&quot;,<br />&nbsp;&quot;244875842263950931884758650019&quot;,<br />&nbsp;&quot;528470075229660077692189442311&quot;,<br />&nbsp;&quot;752198673046476808978058423064&quot;,<br />&nbsp;&quot;899325998610605600525587569431&quot;,<br />&nbsp;&quot;965750123741820904031880230236&quot;,<br />&nbsp;&quot;121658852172052167706008445728&quot;,<br />&nbsp;&quot;556199378085507717770434101126&quot;,<br />&nbsp;&quot;864838242791403197110088834005&quot;,<br />&nbsp;&quot;593435343245223500439707230479&quot;,<br />&nbsp;&quot;622529771475840345624500421425&quot;,<br />&nbsp;&quot;503486612623475041392122088159&quot;,<br />&nbsp;&quot;518334626169655694269507400008&quot;,<br />&nbsp;&quot;967091631529233593414345370288&quot;,<br />&nbsp;&quot;300474162107271438029222620086&quot;,<br />&nbsp;&quot;010527691044447729596127150108&quot;,<br />&nbsp;&quot;742822904991333205419603623270&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">tens</span>
+                                <span class="value data">
+                                
+                                    {&quot;029421809872798033258029765788&quot;,<br />&nbsp;&quot;705135039569772524273274786652&quot;,<br />&nbsp;&quot;170567418260893393020344098265&quot;,<br />&nbsp;&quot;401043354947659563658581268242&quot;,<br />&nbsp;&quot;746709065616595245635350557925&quot;,<br />&nbsp;&quot;739570024549618413776557843034&quot;,<br />&nbsp;&quot;184597012262496958610853505745&quot;,<br />&nbsp;&quot;689811400727818703807051112784&quot;,<br />&nbsp;&quot;894453010121164288965541305235&quot;,<br />&nbsp;&quot;323145029073008946088869964941&quot;,<br />&nbsp;&quot;834269564400729646453274750586&quot;,<br />&nbsp;&quot;538976762970745472202055589093&quot;,<br />&nbsp;&quot;765511399939087047106252621388&quot;,<br />&nbsp;&quot;906733295711605356366138410423&quot;,<br />&nbsp;&quot;107653940551700559321642810836&quot;,<br />&nbsp;&quot;428402693021051075533830345295&quot;,<br />&nbsp;&quot;386782660475155103347385287948&quot;,<br />&nbsp;&quot;936626025836194580089064628716&quot;,<br />&nbsp;&quot;718522629491464055045890912121&quot;,<br />&nbsp;&quot;370656945845300237607868352243&quot;,<br />&nbsp;&quot;951908186614186444840337711498&quot;,<br />&nbsp;&quot;535178875249889835014025850038&quot;,<br />&nbsp;&quot;505970047705717604298603983975&quot;,<br />&nbsp;&quot;484398304612602344941130624527&quot;,<br />&nbsp;&quot;048342694079170795987835013947&quot;,<br />&nbsp;&quot;860331019262176299872846206272&quot;,<br />&nbsp;&quot;549663926438975145562538360932&quot;,<br />&nbsp;&quot;329735455392841851511474791078&quot;,<br />&nbsp;&quot;711755200061373546828858448100&quot;,<br />&nbsp;&quot;778808866574640894148527759780&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">ones</span>
+                                <span class="value data">
+                                
+                                    {&quot;050738147930236727719964251439&quot;,<br />&nbsp;&quot;804492562859282318664226330103&quot;,<br />&nbsp;&quot;610197568193830684654773608216&quot;,<br />&nbsp;&quot;279000416545607314567843085541&quot;,<br />&nbsp;&quot;782201171759873927350740022455&quot;,<br />&nbsp;&quot;043370803444176631019883186675&quot;,<br />&nbsp;&quot;566092086050401228622782761449&quot;,<br />&nbsp;&quot;469598907881602996036692882305&quot;,<br />&nbsp;&quot;116923500417992303845370254124&quot;,<br />&nbsp;&quot;796876115092839169954790509461&quot;,<br />&nbsp;&quot;783836410405270687557924090071&quot;,<br />&nbsp;&quot;095144151150833738671751747749&quot;,<br />&nbsp;&quot;354474585664039135189964700948&quot;,<br />&nbsp;&quot;328968176148004939648962631420&quot;,<br />&nbsp;&quot;829651915384290848347221555092&quot;,<br />&nbsp;&quot;170980383407813034573738951375&quot;,<br />&nbsp;&quot;728655435703349509419725538350&quot;,<br />&nbsp;&quot;121896684176286430427852435647&quot;,<br />&nbsp;&quot;315710894574884960021671476788&quot;,<br />&nbsp;&quot;592177839598531202003634382961&quot;,<br />&nbsp;&quot;876587919610157913350259498196&quot;,<br />&nbsp;&quot;505517243779897451333006271744&quot;,<br />&nbsp;&quot;618607877753891664471800511372&quot;,<br />&nbsp;&quot;826358757330233811836040764274&quot;,<br />&nbsp;&quot;206641252044293046424432092833&quot;,<br />&nbsp;&quot;704519364781672964993499009545&quot;,<br />&nbsp;&quot;624793571592392775564426440338&quot;,<br />&nbsp;&quot;571938479010503551295729304078&quot;,<br />&nbsp;&quot;077967252884369103891335711508&quot;,<br />&nbsp;&quot;870185204806328841827105139840&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            39896
+                        
+                        </span>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+        </ol>
+    </div>
+    <hr />
+
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2003, TopCoder, Inc. All rights reserved.
+</body>
+</html>

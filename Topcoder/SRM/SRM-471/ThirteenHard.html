@@ -1,0 +1,41 @@
+<html><body bgcolor="#000000" text="#ffffff"><table><tr><td colspan="2"><h3>Problem Statement</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td>Despite being beautiful, funny and intelligent (or at least she thinks so), Elleonora has one great disadvantage – she is really superstitious. Although at first sight this seems to be a small thing, it influences great parts of her life. For example, planning an evening out with her friends is quite a challenge for Elly.<br></br><br></br>
+
+While travelling somewhere Elly counts the minutes passed since the time she left home and insists on arriving everywhere such that the time for any segment of her trip is not divisible by 13, since 13 is believed to be one of the most fatal numbers. Here, a segment of the trip refers to any consecutive sequence of transports used by Elly. This means that if her path is home -&gt; station<sub>1</sub> -&gt; station<sub>2</sub> -&gt; destination with travel times home -> station<sub>1</sub> = T<sub>1</sub>, station<sub>1</sub> -> station<sub>2</sub> = T<sub>2</sub> and station<sub>2</sub> -> destination = T<sub>3</sub> then none of T<sub>1</sub>, T<sub>2</sub>, T<sub>3</sub>, T<sub>1</sub> + T<sub>2</sub>, T<sub>2</sub> + T<sub>3</sub> and T<sub>1</sub> + T<sub>2</sub> + T<sub>3</sub> should be divisible by 13.<br></br><br></br>
+
+For example, let the durations of the transports Elly uses be 7, 10 and 16 minutes, respectively. Then, the segment with transports 2 and 3 has a total duration of 10 + 16 = 26 minutes, which is divisible by thirteen and this will ruin her day. On the other hand if the segments of her travel were with durations 7, 14 and 16 minutes, then none of the numbers 7, 14, 16, 21, 30 or 37 would be divisible by thirteen, so this would be a valid path.<br></br><br></br>
+
+There are N stations numbered 0 to N-1 in the city where Elly lives. There are transports between some stations and they are described in vector &lt;string&gt; <b>city</b> containing exactly N elements. The j-th character in i-th element of <b>city</b> describes the duration of the transport that goes directly from station i to station j. Durations of 1, 2, ..., 26 are encoded with 'A', 'B', ..., 'Z', correspondingly, and durations of 27, 28, ..., 52 are encoded with 'a', 'b', ..., 'z', correspondingly. If there is no transport going directly from station i to station j, the corresponding character will be '#'. All transports are directed, so if there's a transport from station i to station j, there will not necessarily be a transport from station j to station i, and if there's such a transport, it will not necessarily be of the same duration. For each station, there can be a transport from this station to itself.<br></br><br></br>
+
+Elly wants to reach station N-1 (0-based) starting from station 0 and using one or more transports. More formally, her path is a sequence of stations S[0], S[1], ..., S[k], k &ge; 1, where S[0] = 0, S[k] = N-1 and for each i, 0 &le; i &lt; k, there's a direct transport from S[i] to S[i+1]. The same station can appear several times in her path. If T[i], 0 &le; i &lt; k, is the duration of the transport from S[i] to S[i+1] in minutes, then there must not be any indices  i, j, 0 &le; i &le; j &lt; k, such that T[i] + T[i+1] + ... + T[j] is divisible by 13.<br></br><br></br>
+
+Return the minimum time in which she can reach station N-1 while respecting her superstitious requirements. If this is not possible, return -1.</td></tr><tr><td colspan="2"><h3>Definition</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Class:</td><td>ThirteenHard</td></tr><tr><td>Method:</td><td>calcTime</td></tr><tr><td>Parameters:</td><td>vector &lt;string&gt;</td></tr><tr><td>Returns:</td><td>int</td></tr><tr><td>Method signature:</td><td>int calcTime(vector &lt;string&gt; city)</td></tr><tr><td colspan="2">(be sure your method is public)</td></tr></table></td></tr><tr><td>&#160;&#160;&#160;&#160;</td></tr><tr><td></td></tr><tr><td colspan="2"><h3>Constraints</h3></td></tr><tr><td align="center" valign="top">-</td><td><b>city</b> will contain exactly N elements, where N is between 2 and 25, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td>Each element of <b>city</b> will contain exactly N characters.</td></tr><tr><td align="center" valign="top">-</td><td>Each element of <b>city</b> will contain only the characters 'a'-'z', 'A'-'Z' and '#'.</td></tr><tr><td colspan="2"><h3>Examples</h3></td></tr><tr><td align="center" nowrap="true">0)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{ &quot;#AB##&quot;,
+  &quot;###A#&quot;,
+  &quot;###C#&quot;,
+  &quot;####K&quot;,
+  &quot;#####&quot; }</pre></td></tr></table></td></tr><tr><td><pre>Returns: 16</pre></td></tr><tr><td><table><tr><td colspan="2">Here the shortest path is with length 13, but that makes it forbidden. The second shortest path is with length 16 and is OK.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">1)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{ &quot;#Z&quot;,
+  &quot;Z#&quot; }</pre></td></tr></table></td></tr><tr><td><pre>Returns: -1</pre></td></tr><tr><td><table><tr><td colspan="2">Here the only path is impossible.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">2)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{ &quot;Good#####&quot;,
+  &quot;#Luck####&quot;,
+  &quot;##and####&quot;,
+  &quot;##Have###&quot;,
+  &quot;####Fun##&quot;,
+  &quot;#####in##&quot;,
+  &quot;#####the#&quot;,
+  &quot;CHALLENGE&quot;,
+  &quot;##PHASE##&quot; }</pre></td></tr></table></td></tr><tr><td><pre>Returns: 137</pre></td></tr><tr><td><table><tr><td colspan="2">Good luck and have fun in the challenge phase.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">3)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{ &quot;###No#####&quot;,
+  &quot;####Zaphod&quot;,
+  &quot;#####Just#&quot;,
+  &quot;######very&quot;,
+  &quot;####very##&quot;,
+  &quot;improbable&quot;,
+  &quot;##########&quot;,
+  &quot;##########&quot;,
+  &quot;##########&quot;,
+  &quot;##########&quot; }</pre></td></tr></table></td></tr><tr><td><pre>Returns: 103</pre></td></tr><tr><td><table><tr><td colspan="2">You can use random messages as challenges.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">4)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{ &quot;#B#C##T#M&quot;,
+  &quot;##K######&quot;,
+  &quot;########A&quot;,
+  &quot;####R####&quot;,
+  &quot;#####U###&quot;,
+  &quot;########C&quot;,
+  &quot;#######H#&quot;,
+  &quot;########S&quot;,
+  &quot;#########&quot; }</pre></td></tr></table></td></tr><tr><td><pre>Returns: 47</pre></td></tr><tr><td><table><tr><td colspan="2">Here we have four possible paths. The shortest one is 0 -> 8 and has length 13 which makes it impossible. The second shortest is 0 -> 1 -> 2 -> 8, but the segment 0 -> 1 -> 2 has length 13, which is impossible. The third one is 0 -> 3 -> 4 -> 5 -> 8, which has length 45, but the segment 3 -> 4 -> 5 is of length 39, which is divisible by 13 and makes it impossible. The fourth one 0 -> 6 -> 7 -> 8 is possible and has length 47.</td></tr></table></td></tr></table></td></tr></table><p>This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2003, TopCoder, Inc.  All rights reserved.  </p></body></html>

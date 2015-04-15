@@ -1,0 +1,59 @@
+<html><body bgcolor="#000000" text="#ffffff"><table><tr><td colspan="2"><h3>Problem Statement</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><p>
+You are given a rectangular board where each cell contains either an integer between 1 and 9, inclusive, or a hole.
+</p>
+
+<p>
+Place a token into the cell in the upper left corner of the board.
+Now you can play a simple game. The game consists of moves, and each move
+looks as follows:
+</p>
+
+<ul>
+<li>Look at the number X written in the cell where your token is placed.</li>
+<li>Choose one of the four basic directions (up, down, left, or right).</li>
+<li>Move your token exactly X cells in the chosen direction.  You can jump over all intermediate holes in the path.</li>
+</ul>
+
+<p>
+The game ends after a move that lands the token in a hole or outside the board.
+Your goal is to make as many moves as possible.
+</p>
+
+<p>
+The board is given as a vector &lt;string&gt; <b>board</b>.
+Characters '<tt>1</tt>' to '<tt>9</tt>' represent cells containing the corresponding integer, and
+letters '<tt>H</tt>' represent holes.
+The upper left corner of the
+board corresponds to the first character of the first element of <b>board</b>.
+</p>
+
+<p>
+Write a method that will compute the maximum number of moves you can make on the
+given board. If it is possible to make an arbitrarily large number of moves,
+your method should return -1.
+</p>
+</td></tr><tr><td colspan="2"><h3>Definition</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Class:</td><td>JumpingBoard</td></tr><tr><td>Method:</td><td>maxJumps</td></tr><tr><td>Parameters:</td><td>vector &lt;string&gt;</td></tr><tr><td>Returns:</td><td>int</td></tr><tr><td>Method signature:</td><td>int maxJumps(vector &lt;string&gt; board)</td></tr><tr><td colspan="2">(be sure your method is public)</td></tr></table></td></tr><tr><td colspan="2"><h3>Limits</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Time limit (s):</td><td>2.000</td></tr><tr><td>Memory limit (MB):</td><td>64</td></tr></table></td></tr><tr><td colspan="2"><h3>Constraints</h3></td></tr><tr><td align="center" valign="top">-</td><td><b>board</b> will contain between 1 and 50 elements, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td>Each element of <b>board</b> will contain between 1 and 50 characters, inclusive.</td></tr><tr><td align="center" valign="top">-</td><td>All elements of <b>board</b> will be of the same length.</td></tr><tr><td align="center" valign="top">-</td><td>Each element of <b>board</b> will only contain characters from the string "<tt>123456789H</tt>" (quotes for clarity).</td></tr><tr><td align="center" valign="top">-</td><td>The first character of the first element of <b>board</b> will not be '<tt>H</tt>'.</td></tr><tr><td colspan="2"><h3>Examples</h3></td></tr><tr><td align="center" nowrap="true">0)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;3942178&quot;,
+ &quot;1234567&quot;,
+ &quot;9123532&quot;}
+</pre></td></tr></table></td></tr><tr><td><pre>Returns: 5</pre></td></tr><tr><td><table><tr><td colspan="2">In the first move you have to move the token to the right. In the second move you
+have three choices. Moves to the left and to the right would bring you to cells
+with a 9 and a 7, respectively, forcing you to end the game in the third move. 
+The optimal strategy is to make the second move down, the third one to the right,
+and the fourth one up or to the left. In the last fifth move you are forced to leave
+the board.
+</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">1)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;2H3HH4HHH5&quot;}</pre></td></tr></table></td></tr><tr><td><pre>Returns: 4</pre></td></tr><tr><td><table><tr><td colspan="2">Remember that you are allowed to jump over holes.  Only landing in a hole is bad.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">2)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;3994&quot;,
+ &quot;9999&quot;,
+ &quot;9999&quot;,
+ &quot;2924&quot;}
+</pre></td></tr></table></td></tr><tr><td><pre>Returns: -1</pre></td></tr><tr><td><table><tr><td colspan="2">Make the first move down, and then you can jump left and right as many times as you wish.
+</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">3)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;123456&quot;,
+ &quot;234567&quot;,
+ &quot;345678&quot;,
+ &quot;456789&quot;}
+</pre></td></tr></table></td></tr><tr><td><pre>Returns: 4</pre></td></tr><tr><td><table><tr><td colspan="2">On this board, all moves that don't end the game lead to the right or down.
+In the best solution, the first three moves are: right, down, right.
+</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">4)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;9&quot;}
+</pre></td></tr></table></td></tr><tr><td><pre>Returns: 1</pre></td></tr><tr><td><table><tr><td colspan="2">There is no real choice here.  The game will always end after the first move.</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">5)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{&quot;2H9HH11&quot;,
+ &quot;HHHHH11&quot;,
+ &quot;9HHHH11&quot;}
+</pre></td></tr></table></td></tr><tr><td><pre>Returns: 2</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr></table><p>This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2003, TopCoder, Inc.  All rights reserved.  </p></body></html>

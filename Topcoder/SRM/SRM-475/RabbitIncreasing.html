@@ -1,0 +1,29 @@
+<html><body bgcolor="#000000" text="#ffffff"><table><tr><td colspan="2"><h3>Problem Statement</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td>Rabbits often feel lonely, even though they breed a lot. <br></br>
+<br></br>
+A male rabbit and a female rabbit were born in July (the 7th month) of year 1, in a certain country. 
+They were the only rabbits in the entire country, so they became a couple. <br></br>
+<br></br>
+In March (the 3rd month) of every year, 
+each couple who is strictly more than 1 year old will breed one male and one female rabbit. 
+That is, couples born in year <i>y</i> will start breeding in the year <i>y</i> + 2. <br></br>
+<br></br>
+Then, in April (the 4th month) of every year, all newly born rabbits will form couples among themselves. 
+Each rabbit will be a member of exactly one couple, and each couple will contain one male and one female rabbit. <br></br>
+<br></br>
+You are given a vector &lt;int&gt; <b>leaving</b>. 
+Each element of <b>leaving</b> is a year in which half of all couples will leave the country in November (the 11th month). 
+If there are an odd number of couples, <i>n</i>, then (<i>n</i> + 1) / 2 couples will leave. 
+Older couples always have priority when leaving. 
+This means that every couple who leaves will have an age greater than or equal to every couple who stays. <br></br>
+<br></br>
+How many couples are in this country in December (the 12th month) of year <b>k</b>? 
+Return the answer modulo 1,000,000,009. 
+</td></tr><tr><td colspan="2"><h3>Definition</h3></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td>Class:</td><td>RabbitIncreasing</td></tr><tr><td>Method:</td><td>getNumber</td></tr><tr><td>Parameters:</td><td>vector &lt;int&gt;, int</td></tr><tr><td>Returns:</td><td>int</td></tr><tr><td>Method signature:</td><td>int getNumber(vector &lt;int&gt; leaving, int k)</td></tr><tr><td colspan="2">(be sure your method is public)</td></tr></table></td></tr><tr><td>&#160;&#160;&#160;&#160;</td></tr><tr><td></td></tr><tr><td colspan="2"><h3>Constraints</h3></td></tr><tr><td align="center" valign="top">-</td><td><b>leaving</b> will contain between 1 and 50 elements, inclusive. </td></tr><tr><td align="center" valign="top">-</td><td><b>k</b> will be between 1 and 10,000,000, inclusive. </td></tr><tr><td align="center" valign="top">-</td><td>Each element of <b>leaving</b> will be between 1 and <b>k</b>, inclusive. </td></tr><tr><td align="center" valign="top">-</td><td>Elements of <b>leaving</b> will be sorted in strictly increasing order.</td></tr><tr><td colspan="2"><h3>Examples</h3></td></tr><tr><td align="center" nowrap="true">0)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{ 3 }</pre></td></tr><tr><td><pre>3</pre></td></tr></table></td></tr><tr><td><pre>Returns: 1</pre></td></tr><tr><td><table><tr><td colspan="2">The first couple will breed a pair of rabbits in March of year 3. 
+Since there are 2 couples in November, 1 old pair will leave. 
+</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">1)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{ 5, 9 }</pre></td></tr><tr><td><pre>10</pre></td></tr></table></td></tr><tr><td><pre>Returns: 6</pre></td></tr><tr><td><table><tr><td colspan="2">In November of year 5, 3 out of 5 couples will leave. <br></br>
+In November of year 9, 5 out of 10 couples will leave. 
+</td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">2)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{ 5, 10, 15 }</pre></td></tr><tr><td><pre>19</pre></td></tr></table></td></tr><tr><td><pre>Returns: 212</pre></td></tr><tr><td><table><tr><td colspan="2"></td></tr></table></td></tr></table></td></tr><tr><td align="center" nowrap="true">3)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{ 2 }</pre></td></tr><tr><td><pre>10000000</pre></td></tr></table></td></tr><tr><td><pre>Returns: 0</pre></td></tr><tr><td></td></tr></table></td></tr><tr><td align="center" nowrap="true">4)</td><td></td></tr><tr><td>&#160;&#160;&#160;&#160;</td><td><table><tr><td><table><tr><td><pre>{ 195, 211, 227, 230, 260, 
+  297, 346, 350, 403, 411, 
+  428, 485, 594, 606, 876 }
+</pre></td></tr><tr><td><pre>1000</pre></td></tr></table></td></tr><tr><td><pre>Returns: 975206486</pre></td></tr><tr><td><table><tr><td colspan="2">There are a lot of rabbits. Be sure to return the answer modulo 1,000,000,009. 
+</td></tr></table></td></tr></table></td></tr></table><p>This problem statement is the exclusive and proprietary property of TopCoder, Inc.  Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited.  (c)2003, TopCoder, Inc.  All rights reserved.  </p></body></html>

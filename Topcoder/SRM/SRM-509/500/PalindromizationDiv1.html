@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>TopCoder SRM 509 - 500: PalindromizationDiv1</title>
+    
+    <link type="image/x-icon" rel="shortcut icon" href="http://www.topcoder.com/i/favicon.ico"/>
+    
+
+    
+    <style type="text/css">
+        /* font */
+body {
+    font-family: Helvetica, Arial, Verdana, sans-serif;
+    font-size: 16px;
+    line-height: 1.2em;
+}
+ul.constraints > li:before, ul.notes > li:before {
+    font-family: monospace;
+    font-weight: normal;
+}
+.heading {
+    font-weight: bold;
+    font-size: 175%;
+    line-height: 1.2em;
+}
+.section .section-title {
+    font-weight: bold;
+    font-size: 125%;
+}
+ol.testcases > li:before {
+    font-family: monospace;
+}
+type {
+    font-weight: bold;
+    font-family: monospace;
+}
+li.testcase .data {
+    font-family: monospace;
+    line-height: 1.5em;
+}
+
+/* layout */
+.heading {
+    margin-top: 0.1em;
+    margin-bottom:0.1em;
+    text-align: center;
+}
+.section .section-title {
+    margin-top : 1em;
+    margin-bottom: 1em;
+}
+.problem-intro, note, user-constraint {
+    padding-left: 1.25em;
+}
+
+/* Lists */
+ul.constraints, ul.notes, ul.variables, ul.problem-definition-lines {
+    list-style-type: none;
+    padding: 0px;
+}
+ul.constraints > li:before {
+    content: "-";
+    position:relative;
+    margin-left: 0px; /* optional, for multiline li element */
+    left: 0.625em;
+}
+ul.notes > li:before {
+    content: "-";
+    position:relative;
+    margin-left: 0px; /* optional, for multiline li element */
+    left: 0.625em;
+}
+
+/* Testcases */
+li.testcase {
+    line-height: 1.1em;
+    padding-top: 0.625em;
+    padding-bottom: 0.625em;
+    overflow: auto;
+}
+li.testcase > .testcase-content > div { padding-bottom: 0.5em; padding-left: 1em; }
+
+li.testcase .testcase-comment {
+    margin: 0;
+    padding-left: 1em;
+}
+.testcase-comment p:first-child { margin-top: 0; }
+.testcase-comment p:last-child { margin-bottom: 0; }
+
+li.testcase .testcase-content {
+    margin: 0.31em;
+}
+
+/* Data and variables */
+.testcase-output {
+    padding: 0.2em 1em 0.2em 0em;
+}
+.variables, .testcase-output {
+    margin-left: 0.5em;
+    display: table;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+.variable {
+    display: table-row;
+}
+.variable .name {
+    padding: 0.2em 0em 0.2em 1em;
+    font-weight: bold;
+    display: table-cell;
+    text-align: right;
+}
+.testcase-output .prefix {
+    padding: 0.2em 0em 0.2em 1em;
+    display: table-cell;
+}
+.testcase-output .prefix:after {
+    content : ":";
+    padding-right: 0.5em;
+}
+.variable .name:after {
+    font-weight: bold;
+    content : ":";
+    padding-right: 0.5em;
+}
+.variable .value, .testcase-output .value {
+    padding: 0.2em 1em 0.2em 0em;
+    display: table-cell;
+}
+ol.testcases {
+    padding: 0px;
+    counter-reset: test_number -1;
+}
+ol.testcases > li {
+    list-style:none;
+}
+ol.testcases > li:before {
+    counter-increment:test_number;
+    display: block;
+    clear: both;
+    content:counter(test_number) ")";
+    color: inherit;
+    background: inherit;
+}
+
+/* Problem Definition */
+.problem-definition, .problem-limits {
+    padding-left: 1.25em;
+}
+.problem-definition-lines, .limit-lines {
+    display: table;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-left: 0px;
+}
+.definition-line, .limit-line {
+    display: table-row;
+    height: 1.5em;
+    overflow: auto;
+}
+.limit-name:after {
+    content: ":";
+    margin-right: 1em;
+}
+.definition-name, .definition-value, .limit-name, .limit-value {
+    display: table-cell;
+}
+.definition-value {
+    padding-left: 0.5em;
+}
+.definition-name:after {
+    content: ":";
+}
+#contest-division:before {
+    content: "Div ";
+}
+#problem-score:before {
+    content: "- Problem ";
+}
+#problem-name {
+    display: block;
+}
+
+/* Tags, hidden default */
+.tag {
+    visibility: hidden;
+    position: absolute;
+}
+
+        body {
+    /* font color */
+    color: #333333;
+    /* background color */
+    background-color: white;
+}
+.section .section-title {
+    /* title color */
+    color: black;
+}
+li.testcase .data {
+    /* highlight color */
+    background: #eee;
+}
+
+    </style>
+    
+    
+    
+
+</head>
+
+<body>
+    <h1 class="heading">
+        <span id='contest-name'>SRM 509</span>
+        <span id='contest-division'>1</span>
+        <span id='problem-score'>500</span>
+        <span id='problem-name'>PalindromizationDiv1</span>
+    </h1>
+
+    <hr />
+
+    <!-- Problem Statement -->
+    <div class="section">
+        <h2 class="section-title">Problem Statement</h2>
+        <div class="problem-intro">
+            <intro escaped="1">Little Arthur loves palindromes. A palindrome is a word that reads the same both forwards and backwards. For example, the words &quot;racecar&quot;, &quot;noon&quot;, and &quot;w&quot; are palindromes, but the words &quot;computer&quot;, &quot;moon&quot;, and &quot;oh&quot; are not.
+<br /><br />
+Arthur is given a word <b>word</b> and he would like to transform it into a palindrome. There are three types of operations he can perform:
+<br /><br />
+<ul>
+<li>add a letter at any position in the word (possibly at the beginning or end);</li>
+<li>erase a letter;</li>
+<li>change one letter to another.</li>
+</ul>
+<br />
+However, each operation can be performed only with certain letters. For example, Arthur could be allowed to erase 'a', add 'b', and change 'c' to 'd'; no other operation would be allowed. Furthermore, nothing in this world is for free and operations with letters is not an exception - each operation Arthur can perform has a certain cost.
+<br /><br />
+The descriptions of the allowed operations and their costs are given as <type>String[]</type> <b>operations</b>. Each element of <b>operations</b> is in one of the following forms (all quotes for clarity):
+<ul>
+<li>&quot;add c x&quot; where c is a letter and x is a positive integer meaning that it is allowed to add a letter c and it costs x dollars;</li>
+<li>&quot;erase c x&quot; where c is a letter and x is a positive integer meaning that it is allowed to erase letter c and it costs x dollars;</li>
+<li>&quot;change c<sub>1</sub> c<sub>2</sub> x&quot; where c<sub>1</sub> and c<sub>2</sub> are letters and x is a positive integer meaning that it is allowed to change letter c<sub>1</sub> to c<sub>2</sub> and it costs x dollars.</li>
+</ul>
+Note that &quot;change c<sub>1</sub> c<sub>2</sub> x&quot; does not allow to change letter c<sub>2</sub> to c<sub>1</sub>.
+<br /><br />
+Little Arthur would like to transform <b>word</b> into a palindrome spending the least amount of money. Given <b>word</b> and <b>operations</b> return the minimum number of dollars Arthur needs to create a palindrome. Return -1 if it is impossible.</intro>
+        </div>
+    </div>
+    
+    <!-- Problem definition -->
+    
+    <div class="section" id="definition">
+        <h2 class="section-title">Definition</h2>
+        <div class="problem-definition">
+            <ul class="problem-definition-lines">
+                <li class="definition-line" id='class-line'>
+                    <span class='definition-name'>Class</span>
+                    <span class='definition-value'>PalindromizationDiv1</span>
+                </li>
+                <li class="definition-line" id='method-line'>
+                    <span class='definition-name'>Method</span>
+                    <span class='definition-value'>getMinimumCost</span>
+                </li>
+                <li class="definition-line" id='parameters-line'>
+                    <span class='definition-name'>Parameters</span>
+                    <span class='definition-value'>
+                    
+                        string
+                    , 
+                        vector&lt;string&gt;
+                    
+                    </span>
+                </li>
+                <li class="definition-line" id='returns-line'>
+                    <span class='definition-name'>Returns</span>
+                    <span class='definition-value'>
+                        int
+                    </span>
+                </li>
+                <li class="definition-line" id='signature-line'>
+                    <span class='definition-name'>Method signature</span>
+                    <span class='definition-value'>
+                        int getMinimumCost(string word, vector&lt;string&gt; operations)
+                    </span>
+                </li>
+            </ul>
+            <div class="problem-definition-public-tip">(be sure your method is public)</div>
+        </div>        
+    </div>
+    
+
+    <!-- Limits -->
+    <div class="section">
+        <h2 class="section-title">Limits</h2>
+        <div class='problem-limits'>
+            <ul class="limit-lines">
+                <li class='limit-line'>
+                    <span class='limit-name'>Time limit (s)</span>
+                    <span class='limit-value'>2.000</span>
+                </li>
+                <li class='limit-line'>
+                    <span class='limit-name'>Memory limit (MB)</span>
+                    <span class='limit-value'>64</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    
+    
+    <!-- Constraints -->
+    <div class="section">
+        <h2 class="section-title">Constraints</h2>
+        <ul class="constraints">
+        
+            <li><user-constraint escaped="1"><b>word</b> will contain between 1 and 50 characters, inclusive.</user-constraint></li>
+        
+            <li><user-constraint escaped="1">Each character in <b>word</b> will be a lowercase letter 'a'-'z'.</user-constraint></li>
+        
+            <li><user-constraint escaped="1"><b>operations</b> will contain between 0 and 50 elements, inclusive.</user-constraint></li>
+        
+            <li><user-constraint escaped="1">Each element of <b>operations</b> will be exactly in the form &quot;add c x&quot;, &quot;erase c x&quot;, or &quot;change c<sub>1</sub> c<sub>2</sub> x&quot; (quotes for clarity) where c, c<sub>1</sub>, c<sub>2</sub> are single lowercase letters 'a'-'z' and x is an integer between 1 and 100000, inclusive, with no leading zeros.</user-constraint></li>
+        
+            <li><user-constraint escaped="1">In each operation in form &quot;change c<sub>1</sub> c<sub>2</sub> x&quot;, c<sub>1</sub> and c<sub>2</sub> will be different. </user-constraint></li>
+        
+            <li><user-constraint escaped="1">All elements of <b>operations</b> will represent different operations, i.e., all elements of <b>operations</b> without the cost part (&quot;add c&quot;, &quot;erase c&quot;, or &quot;change c<sub>1</sub> c<sub>2</sub>&quot;) will be distinct.</user-constraint></li>
+        
+        </ul>
+    </div>
+
+    <!-- Test cases -->
+    <div class="section">
+        <h2 class="section-title">Test cases</h2>
+        <ol class="testcases" start='0'>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">word</span>
+                                <span class="value data">
+                                
+                                    &quot;racecar&quot;
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">operations</span>
+                                <span class="value data">
+                                
+                                    {  }
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            0
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">No&nbsp;operations&nbsp;are&nbsp;allowed&nbsp;but&nbsp;the&nbsp;given&nbsp;word&nbsp;is&nbsp;already&nbsp;a&nbsp;palindrome.</div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">word</span>
+                                <span class="value data">
+                                
+                                    &quot;topcoder&quot;
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">operations</span>
+                                <span class="value data">
+                                
+                                    {&quot;erase t 1&quot;,<br />&nbsp;&quot;erase o 1&quot;,<br />&nbsp;&quot;erase p 1&quot;,<br />&nbsp;&quot;erase c 1&quot;,<br />&nbsp;&quot;erase d 1&quot;,<br />&nbsp;&quot;erase e 1&quot;,<br />&nbsp;&quot;erase r 1&quot;}
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            5
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">Here it is allowed to erase any letter present in <b>word</b> and the cost of each such operation is 1 dollar. Thus, Arthur would like to obtain the longest possible palindrome. Two possible variants to erase only 5 letters result in palindromes &quot;opo&quot; and &quot;oco&quot;.</div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">word</span>
+                                <span class="value data">
+                                
+                                    &quot;topcoder&quot;
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">operations</span>
+                                <span class="value data">
+                                
+                                    { &quot;erase t 10&quot;, &quot;erase o 1&quot;, &quot;erase p 1&quot;, &quot;erase c 1&quot;, &quot;erase d 1&quot;, &quot;erase e 1&quot;, &quot;erase r 1&quot; }
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            7
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">The same situation as previously except erasing letter 't' now costs 10. Because of that it is no longer optimal to obtain the longest possible palindrome.</div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">word</span>
+                                <span class="value data">
+                                
+                                    &quot;caaaaaab&quot;
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">operations</span>
+                                <span class="value data">
+                                
+                                    { &quot;change b a 100000&quot;, &quot;change c a 100000&quot;, &quot;change c d 50000&quot;, &quot;change b e 50000&quot;, &quot;erase d 50000&quot;, &quot;erase e 49999&quot; }
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            199999
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">One way to palindromize &quot;caaaaaab&quot; is to change letters 'c' and 'b' to 'a's right away obtaining &quot;aaaaaaaa&quot;. This would cost 200000.
+<br />
+However, a slightly cheaper way is to perform the following sequence of operations:
+<br />
+<ul>
+<li>&quot;caaaaaab&quot; - change 'c' to 'd' (costs 50000)</li>
+<li>&quot;daaaaaab&quot; - change 'b' to 'e' (costs 50000)</li>
+<li>&quot;daaaaaae&quot; - erase 'd' (costs 50000)</li>
+<li>&quot;aaaaaae&quot; - erase 'e' (costs 49999)</li>
+<li>&quot;aaaaaa&quot;</li>
+</ul>
+This palindromization will cost 199999 in total.</div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+            <li class="testcase">
+                <div class="testcase-content">
+                    <div class="testcase-input">
+                        <div class='tag'>input</div>
+                        <ul class="variables">
+                        
+                            <li class="variable data">
+                                <span class="name data">word</span>
+                                <span class="value data">
+                                
+                                    &quot;moon&quot;
+                                
+                                </span>
+                            </li>
+                        
+                            <li class="variable data">
+                                <span class="name data">operations</span>
+                                <span class="value data">
+                                
+                                    { &quot;erase o 5&quot;, &quot;add u 7&quot;, &quot;change d p 3&quot;, &quot;change m s 12&quot;, &quot;change n d 6&quot;, &quot;change s l 1&quot; }
+                                
+                                </span>
+                            </li>
+                        
+                        </ul>
+                    </div>
+                    <div class="testcase-output">
+                        <div class='tag'>output</div>
+                        <span class="prefix data">Returns</span>
+                        <span class="value data">
+                        
+                            -1
+                        
+                        </span>
+                    </div>
+                    
+                    <div class="testcase-annotation">
+                        <div class='tag'>note</div>
+                        <div class="testcase-comment">Many words can be constructed here (e.g., &quot;moon&quot;, &quot;mood&quot;, &quot;mud&quot;, &quot;soon&quot;, &quot;sun&quot;, &quot;loop&quot;), however, no palindrome is obtainable.</div>
+                    </div>
+                    
+               
+                </div>
+            </li>
+            
+        </ol>
+    </div>
+    <hr />
+
+    This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2003, TopCoder, Inc. All rights reserved.
+</body>
+</html>
