@@ -31,7 +31,7 @@ using namespace std;
 #define ALL(v) (v).begin(), (v).end()
 #define SZ(v) ((int)(v).size())
 #define sqr(x) ((x)*(x))
-#define unq(x) sort(all(x)),(x).erase(unique(all(x)),(x).end())
+#define unq(x) sort(ALL(x)),(x).erase(unique(ALL(x)),(x).end())
 #define snuke(i,x) for (__typeof((x).begin()) i = (x).begin(); i != (x).end(); ++i)
 #define out(x) cout<<#x<<":"<<(x)<<endl
 #define tst(x) cout<<x<<" "
