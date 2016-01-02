@@ -1,20 +1,26 @@
+struct BIT{
+        //index from 1 to n
+
 #define lowbit(x) ((x)&(-x))
-int c[100005];
+        const static int Max_N = 500005;
+        int c[Max_N], n;
 
-//单点修改，区间查询
-//把点x的权值增大d
-void add(int x, int d)
-{
-    while (x <= lim) c[x] += d, x += lowbit(x);
-}
+        //an[x] += d;
+        void add(int x, int d) {
+                while(x <= n) c[x] += d, x += lowbit(x);
+        }
 
-//查询1,2,3...x的权值和
-int sum(int x)
-{
-    int ret = 0;
-    while (x > 0) ret += c[x], x -= lowbit(x);
-    return ret;
-}
+        //return the sum of an[1], an[2]...an[x]
+        int sum(int x) {
+                int ret = 0;
+                while(x > 0) ret += c[x], x -= lowbit(x);
+                return ret;
+        }
+
+        int sum(int l, int r) {
+                return l > r ? 0 : sum(r) - sum(l-1);
+        }
+}bit;
 
 int c[1005][1005];
 
