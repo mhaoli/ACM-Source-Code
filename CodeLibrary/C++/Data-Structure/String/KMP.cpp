@@ -1,30 +1,21 @@
-/*
- * Author:  Plumrain
- * Created Time:  2014-03-11 22:48
- * File Name: KMP.cpp
- */
-
-#define clr(x,y) memset(x, y, sizeof(x))
-#define repf(i, a, b) for(int64 i = (a); i <= (int64)(b); i ++)
-
-//use : match (s1, s2);
-
-void fail (char *s, int *f){
-    f[0] = f[1] = 0;
-    int n = strlen(s);
-    repf (i, 1, n-1){
-        int j = f[i];
-        while (j && s[i] != s[j]) j = f[j];
-        f[i+1] = s[j] == s[i] ? j+1 : 0;
-    }
+//match(s1, s2): return the position of the first s2[] in s1[]
+//time: O(n + m)
+void fail(int *s, int n, int *f) {
+        f[0] = f[1] = 0;
+        int j = 0;
+        for(int i = 2; i <= n; ++i) {
+                while(j && s[i-1] != s[j]) j = f[j];
+                if(s[i-1] == s[j]) ++j;
+                f[i] = j;
+        }
 }
-
-int match(char *s1, char *s2){         //return the position of the first s2[] in s1[]
-    fail (s2, f);
-    int n = strlen(s1), m = strlen(s2), j = 0;
-    repf (i, 0, n-1){
-        while (j && s1[i] != s2[j]) j = f[j];
-        if (s1[i] == s2[j]) ++ j;
-        if (j == m) return;
-    }
+int match(int*s, int n, int *p, int m, int *f) {
+        fail(p, m, f);
+        int j = 0;
+        for(int i = 0; i < n; ++i) {
+                while(j && s[i] != p[j]) j = f[j];
+                if(s[i] == p[j]) ++j;
+                if(j == m) return i - m + 1;
+        }
+        return -2;
 }
