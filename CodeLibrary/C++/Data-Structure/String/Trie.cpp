@@ -1,37 +1,42 @@
-/*
- * Author:  Plumrain
- * Created Time:  2014-03-11 22:32
- * File Name: Trie.cpp
- */
-
-#define clr(x,y) memset(x, y, sizeof(x))
-#define repf(i, a, b) for(int64 i = (a); i <= (int64)(b); i ++)
-
-struct Trie{
-    const static int maxn = 200000;
-    const static int maxs = 26;
-    
-    int ch[maxn][maxs];      //nod
-    int num[maxn];           //state
-    int tot;
-
-    int idx(char c){
-        return c - 'a';
-    }
-    Trie(){
-        tot = 1; num[0] = 0; clr (ch[0], 0);
-    }
-    void insert (char *s, int v){
-        int n = strlen (s), u = 0;
-        repf (i, 0, n-1){
-            int c = idx(s[i]);
-            if (!ch[u][c]){
-                clr (ch[tot], 0);
-                num[tot] = 0;
-                ch[u][c] = tot ++;
-            }
-            u = ch[u][c];
+namespace Trie {
+        struct node {
+                node *son[2];
+                int sz;
+                void clear(){
+                        sz = 0; clr(son);
+                }
+                void dfs() {
+                        rep(i, 0, 2) if(son[i] != 0){
+                                son[i]->dfs();
+                                sz += son[i]->sz;
+                        }
+                }
+                node *go(int c);
+        };
+        node memo[35*300000], *rt, *bat;
+        void newNode(node*&o) {
+                bat->clear(); o = bat++;
         }
-        num[u] = v;
-    }
+        node *node::go(int c) {
+                if(son[c] == 0) newNode(son[c]);
+                return son[c];
+        }
+        void clear() {
+                bat = memo; bat->clear(); rt = bat++;
+        }
+        void insert(int *s, int n) {
+                node *x = rt;
+                rep(i, 0, n) x = x->go(s[i]);
+                x->sz = 1;
+        }
+        vi find(int *s, int n) {
+                vi res;
+                node *x = rt, *y = x;
+                rep(i, 0, n) {
+                        y = x;
+                        x = x->son[s[i]];
+                        res.pb(y->sz - x->sz);
+                }
+                return res;
+        }
 }
