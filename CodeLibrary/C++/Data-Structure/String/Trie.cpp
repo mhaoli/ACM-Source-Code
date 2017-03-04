@@ -1,5 +1,6 @@
 namespace Trie {
         struct node {
+                //-------------------------sz of son
                 node *son[2];
                 int sz;
                 void clear(){
