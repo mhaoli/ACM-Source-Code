@@ -31,7 +31,7 @@ namespace costflow {
                 bat = e; m = 0; memset(head, 0, sizeof head);
         }
         int spfa(){
-                for (int i = 0; i <= n; ++i) dis[i] = Max_C; dis[s] = 0;
+                for (int i = 0; i < n; ++i) dis[i] = Max_C; dis[s] = 0;
                 memset(vis, 0, sizeof(vis)); vis[s] = 1;
                 memset(pre, 0, sizeof(pre));
                 queue<int> q; q.push(s); 
@@ -51,6 +51,7 @@ namespace costflow {
                 }
                 return sgn(Max_C - dis[t]) > 0;  
         }
+        // Node index from 0 to _n-1
         pair<Tf, Tc> solve(int _n, int _s, int _t){
                 n = _n; s = _s; t = _t;
                 Tc cost = 0; Tf flow = 0;
