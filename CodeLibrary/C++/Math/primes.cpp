@@ -19,6 +19,7 @@ void sieve(int n)
 }
 
 //2.贾志鹏论文版,筛素数+打表
+// 时间O(NloglogN)，空间O(N)
 const int maxn = ;
 bool check[maxn+5];
 
@@ -45,6 +46,7 @@ int primes(int n){
         if (!check[i]) prm[tot++] = i;
         for (int j = 0; j < tot; j ++){
             if (i * prm[j] > n) break;
+            //这里，prm[j]是合数i*prm[j]最小的质因子
             check[i*prm[j]] = 1;
             if (i % prm[j] == 0) break;
         }
