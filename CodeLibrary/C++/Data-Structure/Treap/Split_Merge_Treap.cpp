@@ -1,4 +1,5 @@
-//poj 3580
+// based poj 3580
+// add some new function
 #include <cstdio>
 #include <algorithm>
 const int inf = ~0u>>2;
@@ -26,8 +27,9 @@ namespace Treap{
         void relax ();
         Node* upd();
         Droot split (int k);
+        Node* remove_by_val(int _v);
         //int get_rank (int x); //查询key <= x的有多少个
-    }Tnull, *null=&Tnull, mem[Max_N<<1], *bat, *rt;
+    }Tnull, *null=&Tnull, mem[Max_N<<1], *bat, *rt, *stk[Max_N];
     Node *Node::upd (){
         if (this != null){
             sz = ch[0]->sz + ch[1]->sz + 1;
@@ -82,12 +84,36 @@ namespace Treap{
         //if (!sz) return 0;
         //return key <= x ? ch[1]->get_rank (x) + ch[0]->sz + 1 : ch[0]->get_rank (x);
     //}
-    Node* find_kth (Node *r, int k){ //查找第k小
+    /*
+     * slow version find_kth, at least 3 times slower
+    Node* find_kth (Node *&r, int k){ //查找第k小, index 1-based
         Droot t1 = r->split (k-1), t2 = t1.second->split (1);
         Node *ret = t2.first;
         r = merge (merge (t1.first, t2.first), t2.second);
         return ret;
     }
+    */
+    Node* find_kth(Node *r, int K){ //查找第k小, index 1-based
+        if(K > r->sz) return null;
+        while(1){
+            if(r->ch[0]->sz >= K) r = r->ch[0];
+            else if(r->ch[0]->sz + 1 < K) {
+                K -= r->ch[0]->sz + 1;
+                r = r->ch[1];
+            } else return r;
+        }
+    }
+    Node* Node::remove_by_val(int _v){  //_v should be in Treap
+        if(v == _v){
+            return merge(ch[0], ch[1]);
+        } else if(v > _v){
+            ch[0] = ch[0]->remove_by_val(_v);
+        } else {
+            ch[1] = ch[1]->remove_by_val(_v);
+        }
+        return upd();
+    }
+
     /*****************/
     Node *newnod (int v){
         Node *x = bat++;
@@ -97,10 +123,10 @@ namespace Treap{
         return x;
     }
     void build (int *a, int n){
-        //1...n
-        static Node *stk[Max_N], *x, *last;
+        //index 0-based, i.e. [0,n)
+        Node *x, *last;
         int top = 0;
-        for (int i = 1; i <= n; ++i){
+        for (int i = 0; i < n; ++i){
             x = newnod (a[i]);
             last = null;
             while (top && !random (stk[top-1]->sz, x->sz))
