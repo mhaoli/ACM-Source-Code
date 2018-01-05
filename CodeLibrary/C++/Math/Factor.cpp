@@ -1,16 +1,17 @@
 // 未验证正确性
 // 已验证正确性：
-    // is_primitive
     // is_prime
+    // phi
     // init
+    // factorG
 
-typedef pair<int,int> pii;
+typedef pair<long long, long long> pll;
 namespace Factor{
     long long pow_mod(long long p,long long n,long long mod){long long ret=1;for(;n;n>>=1){if(n&1)ret=ret*p%mod;p=p*p%mod;}return ret;}
     const int N=1010000;
     int tot,top,size;
     int prm[N],least_prm[N],_phi[N];
-    int stk_p[111],stk_k[111];
+    long long stk_p[111],stk_k[111];
     void prime_table(){
         int i,j,t1;
         tot=0;
@@ -28,11 +29,11 @@ namespace Factor{
 			}
 		}
     }
-    void _factor(int n){
+    void _factor(long long n){
         int i,t;
-        for(i=0;i<tot && n>size && prm[i]*prm[i]<=n;++i){
+        for(i=0;i<tot && n>size && 1ll*prm[i]*prm[i]<=n;++i){
             if(n%prm[i]==0){
-                stk_k[top]=1;
+                stk_k[top]=0;
                 stk_p[top]=prm[i];
                 while(n%prm[i]==0){
                     stk_k[top]++;
@@ -55,10 +56,10 @@ namespace Factor{
             n/=t;
         }
     }
-    bool is_prime(int p){
+    bool is_prime(long long p){
         if(p==1)return 0;
         if(p<=size)return least_prm[p]==p;
-        for(int i=0;i<tot && p>size && prm[i]*prm[i]<=p;++i){
+        for(int i=0;i<tot && p>size && 1ll*prm[i]*prm[i]<=p;++i){
             if(p%prm[i]==0)return 0;
         }
         return 1;
@@ -70,23 +71,23 @@ namespace Factor{
         prime_table();
         return tot;
     }
-    vector<pii> factorG(int n){
+    vector<pll> factorG(long long n){
         top=0;
         _factor(n);
-        vector<pii> d;
-        for(int i=0;i<top;++i)d.pb(pii(stk_p[i],stk_k[i]));
+        vector<pll> d;
+        for(int i=0;i<top;++i)d.pb(pll(stk_p[i],stk_k[i]));
         return d;
     }
-    int phi(int x){
+    long long phi(long long x){
         if(x<=size)return _phi[x];
-        vector<pii> d=factorG(x);
+        vector<pll> d=factorG(x);
         for(auto p:d) x=x/p.x*(p.x-1);
         return x;
     }
-    bool is_primitive(int a,int p){
+    bool is_primitive(long long a,long long p){
         if(a>=p)return 0;
         assert(is_prime(p));
-        vector<pii> d=factorG(p-1);
+        vector<pll> d=factorG(p-1);
         for(auto i:d) if(pow_mod(a,(p-1)/i.x,p)==1)return 0;
         return 1;
     }
