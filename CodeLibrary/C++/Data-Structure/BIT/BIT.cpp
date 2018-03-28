@@ -5,6 +5,9 @@ struct BIT{
         const static int Max_N = 500005;
         int c[Max_N], n;
 
+        void init(int _n){
+            n = _n;
+        }
         //an[x] += d;
         void add(int x, int d) {
                 while(x <= n) c[x] += d, x += lowbit(x);
